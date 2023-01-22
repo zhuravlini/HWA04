@@ -22,14 +22,7 @@ import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.*;
 
 class CardDeliveryTest {
-    private WebDriver driver;
     private String stringDate;
-    ChromeOptions options = new ChromeOptions();
-
-    @BeforeAll
-    static void setUpAll() {
-        WebDriverManager.chromedriver().setup();
-    }
 
     @BeforeEach
     public void setUp() {
@@ -54,6 +47,9 @@ class CardDeliveryTest {
         $("[data-test-id=agreement]").click();
         $(".button").click();
         $(withText("Успешно!")).shouldBe(visible, Duration.ofSeconds(15));
+        $(".notification__content")
+                .shouldHave(Condition.text("Встреча успешно забронирована на " + stringDate), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
 
     }
 }
